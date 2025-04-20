@@ -1,0 +1,7 @@
+Faker==37.1.0
+kafka-python==2.1.5
+psycopg2-binary==2.9.10
+py4j==0.10.9.7
+pyspark==3.5.5
+tzdata==2025.2
+tzlocal==5.3.1
