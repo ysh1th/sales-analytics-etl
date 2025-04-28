@@ -68,3 +68,34 @@ In Superset:
 SQLAlchemy URI:
 your postgresql credentials in the command:
 `postgresql://<user>:<password>@<host>:<port>/<database>`
+
+---
+
+# post dockerizing
+
+docker ps   # (to find spark container name)
+
+docker exec -it <your-spark-container-name> bash
+
+## Now inside container:
+spark-submit \
+  --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.5 \
+  --jars /opt/spark/jars/postgresql.jar \
+  --conf "spark.driver.extraJavaOptions=-XX:+UseG1GC" \
+  --conf "spark.executor.extraJavaOptions=-XX:+UseG1GC" \
+  order_aggregator.py
+
+## superset
+docker-compose exec superset superset fab create-admin \
+   --username admin --firstname Superset --lastname Admin --email admin@superset.com --
+
+docker-compose build
+
+docker-compose up -d
+
+docker exec -it spark bash
+
+spark-submit \
+  --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.5 \
+  --jars /app/postgresql-42.7.3.jar \
+  /app/order_aggregator.py
