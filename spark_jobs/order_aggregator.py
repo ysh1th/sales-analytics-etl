@@ -32,7 +32,7 @@ spark.conf.set("spark.sql.streaming.statefulOperator.checkpointLocation.numRetai
 # read from kafka topic
 raw_df = spark.readStream \
     .format("kafka") \
-    .option("kafka.bootstrap.servers", "localhost:9092") \
+    .option("kafka.bootstrap.servers", "kafka:9092") \
     .option("subscribe", "orders") \
     .option("startingOffsets", "latest") \
     .load()
