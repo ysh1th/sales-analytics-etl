@@ -37,7 +37,6 @@ parsed_df = raw_df.selectExpr("CAST(value AS STRING)") \
     .select("activity_data.*")
 
 
-# Event count per device/location/user_id per window
 activity_summary_df = parsed_df \
     .withWatermark("timestamp", "2 minutes") \
     .groupBy(

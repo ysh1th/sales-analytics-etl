@@ -25,7 +25,7 @@ EVENTS = ["login", "search", "add_to_cart", "checkout", "logout"]
 def current_local_time():
     return datetime.now(get_localzone()).isoformat()
 
-# --- Order Generator ---
+# --- Order generator ---
 def generate_order():
     product = random.choice(PRODUCTS)
     return {
@@ -43,7 +43,6 @@ active_sessions = {}
 
 
 def generate_user_activity():
-    # Start new sessions randomly
     if len(active_sessions) < 5 and random.random() < 0.5:
         user_id = random.randint(1, 100)
         if user_id not in active_sessions:
@@ -58,7 +57,7 @@ def generate_user_activity():
                 "start_time": datetime.now()
             }
 
-    # Pick a random active user
+    # pick random active user
     if active_sessions:
         user_id = random.choice(list(active_sessions.keys()))
         session = active_sessions[user_id]
@@ -78,17 +77,14 @@ def generate_user_activity():
 
         session["current_event_index"] += 1
 
-        # End session if all events done
+        # end session if all events done
         if session["current_event_index"] >= len(EVENTS):
             del active_sessions[user_id]
-
         return event
-
-    # If no active session, wait
     return None
 
 
-# --- Product Views Generator ---
+# --- product views generator ---
 def generate_product_view():
     product = random.choice(PRODUCTS)
     return {

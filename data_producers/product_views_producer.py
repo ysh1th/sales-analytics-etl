@@ -11,11 +11,11 @@ producer = KafkaProducer(
 TOPIC_NAME = "productViews"
 
 def produce_product_views():
-    while True:
+    while True: 
         view_data = generate_product_view()
         producer.send(TOPIC_NAME, value=view_data)
         print(f"Produced to {TOPIC_NAME}: {view_data}")
-        time.sleep(0.7)  # simulate user browsing pace
+        time.sleep(0.7)
 
 if __name__ == "__main__":
     produce_product_views()

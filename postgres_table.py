@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Database connection config
+
 conn = psycopg2.connect(
     dbname=os.getenv("POSTGRES_DB"),
     user=os.getenv("POSTGRES_USER"),
@@ -16,7 +16,7 @@ conn = psycopg2.connect(
 
 cursor = conn.cursor()
 
-# SQL for realtime_order_summary
+
 create_order_summary = """
 DROP TABLE IF EXISTS realtime_order_summary;
 
@@ -30,7 +30,7 @@ CREATE TABLE realtime_order_summary (
 );
 """
 
-# SQL for user_activity_summary
+
 create_user_activity_summary = """
 DROP TABLE IF EXISTS user_activity_summary;
 
@@ -48,7 +48,7 @@ CREATE TABLE user_activity_summary (
 
 """
 
-# Execute and commit
+
 cursor.execute(create_order_summary)
 cursor.execute(create_user_activity_summary)
 

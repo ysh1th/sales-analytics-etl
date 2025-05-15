@@ -18,7 +18,6 @@ order_schema = StructType() \
     .add("timestamp", TimestampType())
 
 
-# Create a new SparkSession with simplified configuration
 spark = SparkSession.builder \
   .appName("LiveOrderAggregator") \
   .getOrCreate()
@@ -29,7 +28,6 @@ spark.conf.set("spark.sql.streaming.stateStore.maintenanceInterval", "300s")
 spark.conf.set("spark.sql.streaming.statefulOperator.checkpointLocation.numRetainedCheckpoints", "3")
 
 
-# read from kafka topic
 raw_df = spark.readStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", "kafka:9092") \
@@ -37,13 +35,12 @@ raw_df = spark.readStream \
     .option("startingOffsets", "latest") \
     .load()
 
-# extract json fields from kafka value
+
 parsed_df = raw_df.selectExpr("CAST(value AS STRING)") \
   .select(from_json(col("value"), order_schema).alias("orders_data")) \
   .select("orders_data.*")
 
 
-# aggregate revenue and order count per 5 min window, grouped by category and payment method
 aggregated_order_df = parsed_df \
   .withWatermark("timestamp", "10 minutes") \
   .groupBy(
@@ -60,7 +57,6 @@ aggregated_order_df = parsed_df \
 def write_postgresql_orders(batch_df, batch_id):
   try:
     print(f"Processing batch: {batch_id}")
-    # Add debug info to see data
     batch_df.show(5, truncate=False)
     
     if batch_df.count() > 0:
@@ -98,7 +94,7 @@ checkpoint_dir = "/tmp/spark-checkpoints/orders-agg-fresh"
 # print(f"Creating fresh checkpoint directory: {checkpoint_dir}")
 # os.makedirs(checkpoint_dir, exist_ok=True)
 
-# Stream the output
+
 print("Starting streaming query...")
 
 
