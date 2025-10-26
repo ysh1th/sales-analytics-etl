@@ -19,6 +19,7 @@ PRODUCTS = [
 ]
 
 DEVICES = ["mobile", "desktop", "tablet"]
+
 EVENTS = ["login", "search", "add_to_cart", "checkout", "logout"]
 
 
@@ -84,15 +85,15 @@ def generate_user_activity():
     return None
 
 
-# --- product views generator ---
-def generate_product_view():
-    product = random.choice(PRODUCTS)
-    return {
-        "view_id": faker.uuid4(),
-        "user_id": random.randint(1, 100),
-        "product_id": product["product_id"],
-        "category": product["category"],
-        "device": random.choice(DEVICES),
-        "referrer": faker.uri(),
-        "timestamp": current_local_time()
-    }
+# # --- product views generator ---
+# def generate_product_view():
+#     product = random.choice(PRODUCTS)
+#     return {
+#         "view_id": faker.uuid4(),
+#         "user_id": random.randint(1, 100),
+#         "product_id": product["product_id"],
+#         "category": product["category"],
+#         "device": random.choice(DEVICES),
+#         "referrer": faker.uri(),
+#         "timestamp": current_local_time()
+#     }

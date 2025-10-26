@@ -15,6 +15,21 @@ cd kafka_2.13-4.0.0/
 bin/kafka-server-start.sh config/server.properties
 ```
 
+### incase of `No readable meta.properties files found.` error:
+
+Generate a cluster ID:
+
+```
+CLUSTER_ID=$(bin/kafka-storage.sh random-uuid)
+```
+
+Format the storage directory:
+<!-- Replace config/kraft/server.properties with your actual config file if needed: -->
+
+```
+bin/kafka-storage.sh format -t $CLUSTER_ID -c config/server.properties
+```
+
 # start kafka consumers
 ```
 ~/kafka_2.13-4.0.0/bin/kafka-console-consumer.sh --topic orders --bootstrap-server localhost:9092
